@@ -1,32 +1,38 @@
 #include "pch.h"
 #include "ComputerDefaultsHijacker.h"
 
-void ComputerDefaultsHijacker::Install(LPCWSTR wzCommand)
+bool ComputerDefaultsHijacker::Install(LPCWSTR wzCommand)
 {
 	// Create registry tree
-	Lib::CreateRegistryKey(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open\\command");
+	Wrapper::CreateRegistryKey(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open\\command");
 	
 	// Expand command
 	WCHAR wzExpanded[MAX_PATH];
 	ExpandEnvironmentStringsW(wzCommand, wzExpanded, _countof(wzExpanded));
 	wzCommand = wzExpanded;
 
+	bool bRet = false;
+	
 	// Set DelegateExecute value
-	Lib::SetRegistryStringValue(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open\\command", L"DelegateExecute", NULL);
+	bRet = Wrapper::SetRegistryStringValue(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open\\command", L"DelegateExecute", NULL);
+	if (!bRet)
+		return false;
 	
 	// Set (Default) value to target command
-	Lib::SetRegistryStringValue(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open\\command", NULL, wzCommand);
+	bRet = Wrapper::SetRegistryStringValue(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open\\command", NULL, wzCommand);
+	if (!bRet)
+		return false;
+
+	return true;
 }
 
-void ComputerDefaultsHijacker::Run()
+bool ComputerDefaultsHijacker::Run()
 {
-	// Expand
-	WCHAR wzExpanded[MAX_PATH];
-	ExpandEnvironmentStringsW(L"%WinDir%\\System32\\ComputerDefaults.exe", wzExpanded, _countof(wzExpanded));
+	// Expand command
+	WCHAR wzCommand[MAX_PATH];
+	ExpandEnvironmentStringsW(L"%WinDir%\\System32\\ComputerDefaults.exe", wzCommand, _countof(wzCommand));
 
-	LPWSTR wzCommand = _wcsdup(wzExpanded);
-
-	// Start
+	// Prepare
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
 
@@ -34,15 +40,17 @@ void ComputerDefaultsHijacker::Run()
 	si.cb = sizeof(si);
 	ZeroMemory(&pi, sizeof(pi));
 
+	// Execute
 	HINSTANCE hRet = ShellExecuteW(NULL, NULL, wzCommand, NULL, NULL, 0);
 	if ((int)hRet <= 32)
-		return;
+		return false;
 	
-	free(wzCommand);
+	return true;
 }
 
 void ComputerDefaultsHijacker::Uninstall()
 {
-	Lib::DeleteRegistryKey(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open\\command");
-	Lib::DeleteRegistryKey(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open");
+	// Delete
+	Wrapper::DeleteRegistryKey(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open\\command");
+	Wrapper::DeleteRegistryKey(HKEY_CURRENT_USER, L"Software\\Classes\\ms-settings\\shell\\open");
 }

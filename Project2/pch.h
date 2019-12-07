@@ -10,4 +10,11 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 
+#include <windows.h>
+
+#include "Wrapper.h"
+#pragma comment(lib, "StaticLib1")
+
+#pragma comment(lib, "User32")
+
 #endif //PCH_H

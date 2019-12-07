@@ -18,8 +18,8 @@
 class ComputerDefaultsHijacker
 {
 public:
-	void Install(LPCWSTR wzCommand);
-	void Run();
+	bool Install(LPCWSTR wzCommand);
+	bool Run();
 	void Uninstall();
 };
 

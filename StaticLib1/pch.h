@@ -8,17 +8,16 @@
 #define PCH_H
 
 // add headers that you want to pre-compile here
-#include <windows.h>
+#include "framework.h"
 
+#include <windows.h>
 #include <strsafe.h>
+#include <winscard.h>
 #include <Shlwapi.h>
 
-#include <list>
-#include <string>
 
-#include "resource.h"
-
-#include "Wrapper.h"
-#pragma comment(lib, "StaticLib1")
+#pragma comment(lib, "Shlwapi")
+#pragma comment(lib, "advapi32")
+#pragma comment(lib, "Shell32")
 
 #endif //PCH_H
