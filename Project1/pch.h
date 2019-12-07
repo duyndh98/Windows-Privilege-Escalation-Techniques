@@ -8,5 +8,14 @@
 #define PCH_H
 
 // add headers that you want to pre-compile here
+#include <windows.h>
+
+#include <strsafe.h>
+
+#include <list>
+#include <string>
+
+#include "resource.h"
+#include "Lib.h"
 
 #endif //PCH_H
