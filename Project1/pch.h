@@ -12,6 +12,7 @@
 
 #include <strsafe.h>
 #include <Shlwapi.h>
+#include <winternl.h>
 
 #include <list>
 #include <string>
@@ -21,13 +22,15 @@
 #define LOG_PATH L"%USERPROFILE%\\Desktop\\Demo_PE\\log.txt"
 
 #include "../StaticLib1/Wrapper.h"
-#include "../StaticLib1/ProcessInjection.h"
+#include "../StaticLib1/ComputerDefaultsHijacking.h"
+#include "../StaticLib1/SystemPropertiesAdvancedHijacking.h"
 #pragma comment(lib, "StaticLib1")
 
 enum Method
 {
 	None,
 	ComputerDefaults,
+	SystemPropertiesAdvanced,
 	MethodCount
 };
 

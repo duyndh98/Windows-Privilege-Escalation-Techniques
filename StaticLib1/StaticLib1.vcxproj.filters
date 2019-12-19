@@ -36,6 +36,9 @@
     <ClInclude Include="ProcessInjection.h">
       <Filter>Header Files\Methods</Filter>
     </ClInclude>
+    <ClInclude Include="SystemPropertiesAdvancedHijacking.h">
+      <Filter>Header Files\Methods</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StaticLib1.cpp">
@@ -51,6 +54,9 @@
       <Filter>Header Files\Methods</Filter>
     </ClCompile>
     <ClCompile Include="ProcessInjection.cpp">
+      <Filter>Header Files\Methods</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemPropertiesAdvancedHijacker.cpp">
       <Filter>Header Files\Methods</Filter>
     </ClCompile>
   </ItemGroup>

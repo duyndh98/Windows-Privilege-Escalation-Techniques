@@ -3,6 +3,7 @@
 
 void Wrapper::Init()
 {
+	SetErrorMode(SetErrorMode(0) | SEM_NOGPFAULTERRORBOX);
 	PVOID pOldValue;
 	Wow64DisableWow64FsRedirection(&pOldValue);
 }
@@ -139,6 +140,16 @@ bool Wrapper::WriteToFile(LPCWSTR wzFilePath, LPBYTE pData, DWORD dwDataSize, bo
 	CloseHandle(hFile);
 
 	return true;
+}
+
+bool Wrapper::RemoveFile(LPCWSTR wzFilePath)
+{
+	// Expand command
+	WCHAR wzExpanded[MAX_PATH];
+	ExpandEnvironmentStringsW(wzFilePath, wzExpanded, _countof(wzExpanded));
+	wzFilePath = wzExpanded;
+	
+	return DeleteFileW(wzFilePath);
 }
 
 bool Wrapper::ExecuteShellCommand(LPCWSTR wzCommand)
@@ -546,6 +557,17 @@ bool Wrapper::GetFullProcessInfo(HANDLE hProcess, LPWSTR wzInfo, DWORD dwInfoLen
 	// Copy
 	StrCpyW(wzInfo, wstrInfo.c_str());
 
+	return true;
+}
+
+bool Wrapper::CheckWindows64(bool& bWin64)
+{
+	USHORT uProcessMachine = 0;
+	USHORT uNativeMachine = 0;
+	if (!IsWow64Process2(GetCurrentProcess(), &uProcessMachine, &uNativeMachine))
+		return false;
+
+	bWin64 = (IMAGE_FILE_MACHINE_AMD64 == uNativeMachine);
 	return true;
 }
 

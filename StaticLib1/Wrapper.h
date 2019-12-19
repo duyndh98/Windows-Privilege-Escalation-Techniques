@@ -14,6 +14,7 @@ public:
 	static bool GetResourceData(DWORD dwResourceId, LPCWSTR wzResourceType, LPBYTE& pData, DWORD& dwDataSize);
 	static bool ReadFromFile(LPCWSTR wzFilePath,LPBYTE &pData, DWORD & dwDataSize);
 	static bool WriteToFile(LPCWSTR wzFilePath, LPBYTE pData, DWORD dwData, bool bAppend);
+	static bool RemoveFile(LPCWSTR wzFilePath);
 
 	static bool ExecuteShellCommand(LPCWSTR wzCommand);
 	static bool CreateNewProcess(LPCWSTR wzCommand);
@@ -25,6 +26,7 @@ public:
 	static bool GetProcessInfo(HANDLE hProcess, TOKEN_INFORMATION_CLASS infoClass, LPBYTE pData, DWORD &dwDataSize);
 	static bool CheckProcess64(HANDLE hProcess, bool &b64Process);
 	static bool GetFullProcessInfo(HANDLE hProcess, LPWSTR wzInfo, DWORD dwInfoLength);
+	static bool CheckWindows64(bool &bWin64);
 
 	static void Log(LPCWSTR wzLogPath);
 };

