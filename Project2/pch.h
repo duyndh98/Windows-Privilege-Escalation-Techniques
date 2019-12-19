@@ -11,12 +11,17 @@
 #include "framework.h"
 #include <Windows.h>
 
+#include <stdlib.h>
+#include <Shlwapi.h>
+
 #include "../StaticLib1/pch.h"
 #include "../StaticLib1/Wrapper.h"
 #include "../StaticLib1/ProcessInjection.h"
 
 #pragma comment(lib, "StaticLib1")
 #pragma comment(lib, "User32.lib")
+
+extern HMODULE g_hModule;
 
 void WINAPI EntryPoint();
 //void WINAPI Inject();

