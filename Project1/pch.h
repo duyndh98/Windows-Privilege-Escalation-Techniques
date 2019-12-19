@@ -18,7 +18,17 @@
 
 #include "resource.h"
 
-#include "Wrapper.h"
+#define LOG_PATH L"%USERPROFILE%\\Desktop\\Demo_PE\\log.txt"
+
+#include "../StaticLib1/Wrapper.h"
+#include "../StaticLib1/ProcessInjection.h"
 #pragma comment(lib, "StaticLib1")
+
+enum Method
+{
+	None,
+	ComputerDefaults,
+	MethodCount
+};
 
 #endif //PCH_H

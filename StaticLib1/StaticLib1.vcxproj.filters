@@ -16,6 +16,9 @@
     <Filter Include="Wrapper">
       <UniqueIdentifier>{ea7c0d29-ac0c-43d7-8d9f-03c5e5d7842a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Methods">
+      <UniqueIdentifier>{6d7ffe3a-2fed-4441-a645-ea51d5fcb8cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -27,6 +30,12 @@
     <ClInclude Include="Wrapper.h">
       <Filter>Wrapper</Filter>
     </ClInclude>
+    <ClInclude Include="ComputerDefaultsHijacking.h">
+      <Filter>Header Files\Methods</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessInjection.h">
+      <Filter>Header Files\Methods</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StaticLib1.cpp">
@@ -37,6 +46,12 @@
     </ClCompile>
     <ClCompile Include="Wrapper.cpp">
       <Filter>Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputerDefaultsHijacking.cpp">
+      <Filter>Header Files\Methods</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessInjection.cpp">
+      <Filter>Header Files\Methods</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,10 +11,20 @@
 #include "framework.h"
 
 #include <windows.h>
+#include <Shlwapi.h>
+#include <winternl.h>
 
-#include "Wrapper.h"
+#include <string>
+
+#include "../StaticLib1/Wrapper.h"
+#include "../StaticLib1/ProcessInjection.h"
 #pragma comment(lib, "StaticLib1")
 
 #pragma comment(lib, "User32")
+
+#define MUTEX_GUID L"{B4F99EFA-88D9-43AD-9977-88431BC221B8}"
+#define LOG_PATH L"%USERPROFILE%\\Desktop\\Demo_PE\\log.txt"
+
+void WINAPI EntryPoint();
 
 #endif //PCH_H

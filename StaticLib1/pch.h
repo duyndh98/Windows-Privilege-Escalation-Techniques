@@ -13,11 +13,19 @@
 #include <windows.h>
 #include <strsafe.h>
 #include <winscard.h>
+#include <shellapi.h>
 #include <Shlwapi.h>
+#include <psapi.h>
+#include <winternl.h>
 
+#include <string>
+#include <map>
 
 #pragma comment(lib, "Shlwapi")
 #pragma comment(lib, "advapi32")
 #pragma comment(lib, "Shell32")
+#pragma comment(lib, "User32.lib")
+
+#define LOG_PATH L"%USERPROFILE%\\Desktop\\Demo_PE\\log.txt"
 
 #endif //PCH_H
